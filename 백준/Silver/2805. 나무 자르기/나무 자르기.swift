@@ -31,9 +31,12 @@ var l = 1, r = logs.max()!
 var answer = 0
 while l <= r {
     let mid = (l + r) / 2
-    let sum = logs.reduce(0, { (partialSum, log) in
-        return partialSum + max(log - mid, 0)
-    })
+    var sum = 0
+    for log in logs {
+        if log > mid {
+            sum += (log - mid)
+        }
+    }
     if sum < m {
         r = mid - 1
     } else {
