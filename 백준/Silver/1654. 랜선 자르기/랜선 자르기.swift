@@ -19,18 +19,18 @@ final class FileIO {
 
 let file = FileIO()
 let lineCount = file.readInt(), need = file.readInt()
-let lineLengths = [Int](0..<lineCount).map { _ in file.readInt() }
-var start = 1, end = lineLengths.max()!, answer = 1
-while start <= end {
-    let mid: Int = (start + end) / 2
+let lengths = [Int](0..<lineCount).map { _ in file.readInt() }
+var l = 1, r = lengths.max()!, answer = 1
+while l <= r {
+    let mid: Int = (l + r) / 2
     var count = 0
-    for lineLength in lineLengths {
+    for lineLength in lengths {
         count += Int(lineLength / mid)
     }
     if count < need {
-        end = mid - 1
+        r = mid - 1
     } else {
-        start = mid + 1
+        l = mid + 1
         answer = max(answer, mid)
     }
 }
