@@ -1,7 +1,6 @@
 import Foundation
 
 final class FileIO {
-
     @inline(__always) private var buffer: [UInt8] = Array(FileHandle.standardInput.readDataToEndOfFile()) + [0], index = 0
 
     @inline(__always) private func read() -> UInt8 {
@@ -19,25 +18,18 @@ final class FileIO {
 }
 
 let file = FileIO()
-
 let n = file.readInt(), m = file.readInt()
-
-var times = [Int]()
-for _ in 0 ..< n {
-    times.append(file.readInt())
-}
-
-var l = 1, r = times.max()! * m
-var answer = 0
+let times = [Int](0..<n).map { _ in file.readInt() }
+var l = 1, r = times.max()! * m, answer = r
 while l <= r {
-    let mid = (l + r) / 2
-    var countOfBalloon = 0
+    let mid: Int = (l + r) / 2
+    var count = 0
     for time in times {
-        countOfBalloon += mid / time
+        count += Int(mid / time)
     }
-    if countOfBalloon >= m {
+    if count >= m {
         r = mid - 1
-        answer = mid
+        answer = min(answer, mid)
     } else {
         l = mid + 1
     }
