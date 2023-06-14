@@ -8,22 +8,23 @@ final class FileIO {
         return buffer.withUnsafeBufferPointer { $0[index] }
     }
 
-    @inline(__always) func readUInt() -> UInt {
-        var sum: UInt = 0, now = read()
+    @inline(__always) func readInt() -> Int {
+        var sum: Int = 0, now = read(), isNegative = false
         while now == 10 || now == 32 { now = read() }
-        while 48...57 ~= now { sum = sum * 10 + UInt(now - 48); now = read() }
-        return sum
+        if now == 45 { isNegative = true; now = read() }
+        while 48...57 ~= now { sum = sum * 10 + Int(now - 48); now = read() }
+        return sum * (isNegative ? -1 : 1)
     }
 }
 
 let file = FileIO()
-let n = file.readUInt()
-let computers = [UInt](0..<n * n).map { _ in file.readUInt() }
+let n = file.readInt()
+let computers = [Int](0..<n * n).map { _ in file.readInt() }
 let sum = computers.reduce(0, +)
-var l: UInt = 1, r = computers.max()!, answer: UInt = 0
+var l = 1, r = computers.max()!, answer = 0
 while l <= r {
-    let mid: UInt = (l + r) / 2
-    var count: UInt = 0
+    let mid: Int = (l + r) / 2
+    var count = 0
     for computer in computers {
         count += min(computer, mid)
     }
