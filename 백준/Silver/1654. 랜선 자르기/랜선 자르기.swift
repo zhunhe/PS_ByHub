@@ -1,7 +1,6 @@
 import Foundation
 
 final class FileIO {
-
     @inline(__always) private var buffer: [UInt8] = Array(FileHandle.standardInput.readDataToEndOfFile()) + [0], index = 0
 
     @inline(__always) private func read() -> UInt8 {
@@ -19,27 +18,20 @@ final class FileIO {
 }
 
 let file = FileIO()
-
-let k = file.readInt(), n = file.readInt()
-
-var lines = [Int]()
-for _ in 0 ..< k {
-    lines.append(file.readInt())
-}
-
-var l = 1, r = lines.max()!
-var answer = 1
-while l <= r {
-    let mid = (l + r) / 2
+let lineCount = file.readInt(), need = file.readInt()
+let lineLengths = [Int](0..<lineCount).map { _ in file.readInt() }
+var start = 1, end = lineLengths.max()!, answer = 1
+while start <= end {
+    let mid: Int = (start + end) / 2
     var count = 0
-    for line in lines {
-        count += line / mid
+    for lineLength in lineLengths {
+        count += Int(lineLength / mid)
     }
-    if count >= n {
-        answer = mid
-        l = mid + 1
+    if count < need {
+        end = mid - 1
     } else {
-        r = mid - 1
+        start = mid + 1
+        answer = max(answer, mid)
     }
 }
 print(answer)
