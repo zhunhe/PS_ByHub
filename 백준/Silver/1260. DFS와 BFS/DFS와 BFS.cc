@@ -6,7 +6,6 @@ vector<int> graph[1001];
 bool visited[1001];
 
 void dfs(const int now) {
-    if (visited[now]) return;
     visited[now] = true;
     cout << now << " ";
     for (int next: graph[now]) {
