@@ -22,13 +22,13 @@ int main() {
         adj[from].push_back({to, cost});
     }
     dist[1].push(0);
-    pq.push({0, 1});
+    pq.push({1, 0});
     while (!pq.empty()) {
         const Data now = pq.top(); pq.pop();
-        for (Data next : adj[now.cost]) {
-            if (dist[next.pos].size() < k || dist[next.pos].top() > now.pos + next.cost) {
-                dist[next.pos].push(now.pos + next.cost);
-                pq.push({now.pos + next.cost, next.pos});
+        for (Data next : adj[now.pos]) {
+            if (dist[next.pos].size() < k || dist[next.pos].top() > now.cost + next.cost) {
+                dist[next.pos].push(now.cost + next.cost);
+                pq.push({next.pos, now.cost + next.cost});
                 if (dist[next.pos].size() > k) dist[next.pos].pop();
             }
         }
