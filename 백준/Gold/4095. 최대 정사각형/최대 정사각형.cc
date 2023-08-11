@@ -18,9 +18,7 @@ int main() {
         for (int y = 1; y < N + 1; y++) {
             for (int x = 1; x < M + 1; x++) {
                 if (matrix[y][x] == 0) continue;
-                int _min = min(dp[y - 1][x - 1], dp[y - 1][x]);
-                _min = min(_min, dp[y][x - 1]);
-                dp[y][x] = _min + 1;
+                dp[y][x] = min({dp[y - 1][x - 1], dp[y - 1][x], dp[y][x - 1]}) + 1;
                 answer = max(answer, dp[y][x]);
             }
         }
