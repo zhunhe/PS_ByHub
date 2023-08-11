@@ -2,16 +2,17 @@
 using namespace std;
 #define FASTIO ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 
-uint64_t fibo[10002];
+int T, P, Q;
+uint64_t dp[10002];
 
 int main() {
     FASTIO
-    int T; cin >> T;
+    cin >> T;
     for (int i = 1; i < T + 1; i++) {
-        int P, Q; cin >> P >> Q;
-        fibo[1] = fibo[2] = 1 % Q;
+        cin >> P >> Q;
+        dp[1] = dp[2] = 1 % Q;
         for (int j = 3; j < P + 1; j++)
-            fibo[j] = (fibo[j - 1] + fibo[j - 2]) % Q;
-        cout << "Case #" << i << ": " << fibo[P] << '\n';
+            dp[j] = (dp[j - 1] + dp[j - 2]) % Q;
+        cout << "Case #" << i << ": " << dp[P] << '\n';
     }
 }
