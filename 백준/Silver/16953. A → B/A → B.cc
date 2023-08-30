@@ -2,8 +2,6 @@
 using namespace std;
 #define FASTIO ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 
-#define NOT_VISIT -1
-
 int main() {
     FASTIO
     int a, b; cin >> a >> b;
