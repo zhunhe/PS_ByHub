@@ -12,9 +12,11 @@ int dp(int s, int e) {
 	if (cache[s][e] != -1) return cache[s][e];
 	int &ret = cache[s][e];
 	if (s == e) return ret = 1;
-	else if (s + 1 == e) return ret = (seq[s] == seq[e]);
-	else if (seq[s] != seq[e]) return 0;
-	else return ret = dp(s + 1, e - 1);
+	if (s + 1 == e)
+		return ret = (seq[s] == seq[e]);
+	if (seq[s] == seq[e])
+		return ret = dp(s + 1, e - 1);
+	return ret = 0;
 }
 
 int main() {
