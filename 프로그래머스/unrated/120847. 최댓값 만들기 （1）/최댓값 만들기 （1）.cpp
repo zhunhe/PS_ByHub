@@ -3,13 +3,18 @@
 
 using namespace std;
 
+#define COUNT   2
+
 int solution(vector<int> numbers) {
-    priority_queue<int> pq;
-    for (const int number: numbers)
+    priority_queue<int, vector<int>, greater<int>> pq;
+    for (const int number: numbers) {
         pq.push(number);
+        while (pq.size() > COUNT)
+            pq.pop();
+    }
     
     int answer = 1;
-    for (int i = 0; i < 2; i++) {
+    while (!pq.empty()) {
         answer *= pq.top();
         pq.pop();
     }
