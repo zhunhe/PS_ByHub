@@ -8,7 +8,7 @@ vector<int> solution(int num, int total) {
 
     int start = 0;
     if (num % 2 == 1)
-        start = (total / num) - (num - 1) / 2;
+        start = (total / num) - num / 2;
     else
         start = (total / num) - (num / 2) + 1;
     for (int i = start; i < start + num; i++)
