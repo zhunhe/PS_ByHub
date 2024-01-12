@@ -3,9 +3,11 @@
 using namespace std;
 
 int solution(string s, string p) {
-    int ans = 0;
-    for (int i = 0; i < s.size() - p.size() + 1; i++)
-        if (s.substr(i, p.size()) == p)
-            ans++;
+    int pos = s.find(p, 0);
+    int ans = pos != string::npos;
+    while (pos != string::npos) {
+        pos = s.find(p, ++pos);
+        ans += pos != string::npos;
+    }
     return ans;
 }
