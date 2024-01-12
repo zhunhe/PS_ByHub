@@ -10,8 +10,8 @@ vector<string> solution(string s) {
     string tmp;
     vector<string> ans;
     while (ss >> tmp)
-        ans.push_back(tmp);
+        ans.emplace_back(tmp);
     if (ans.empty())
-        ans.push_back("EMPTY");
+        ans.emplace_back("EMPTY");
     return ans;
 }
