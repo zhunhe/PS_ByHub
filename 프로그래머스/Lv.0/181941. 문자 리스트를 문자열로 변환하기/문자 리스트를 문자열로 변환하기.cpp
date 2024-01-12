@@ -1,11 +1,9 @@
 #include <string>
 #include <vector>
+#include <numeric>
 
 using namespace std;
 
 string solution(vector<string> arr) {
-    string ans = "";
-    for (const string& s : arr)
-        ans += s;
-    return ans;
+    return accumulate(arr.begin(), arr.end(), string(""));
 }
