@@ -1,19 +1,11 @@
 #include <string>
 
-#include <iostream>
-
 using namespace std;
 
 string solution(string s) {
-    bool makeUpper = true;
-    for (char& c : s) {
-        c = tolower(c);
-        if (makeUpper) {
-            makeUpper = false;
-            c = toupper(c);
-        }
-        if (c == ' ')
-            makeUpper = true;
-    }
-    return s;
+    string answer = "";
+    answer = toupper(s[0]);
+    for (int i = 1; i < s.size(); i++)
+        answer += s[i - 1] == ' ' ? toupper(s[i]) : tolower(s[i]);
+    return answer;
 }
