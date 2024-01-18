@@ -1,58 +1,31 @@
-#include <string>
-#include <vector>
-#include <map>
-#include <sstream>
-#include <algorithm>
-
-#include <iostream>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-struct parkingData {
-    int time;
-    string car, type;
-};
-
-#define DEFAULT_TIME    0
-#define DEFAULT_FEE     1
-#define UNIT_TIME       2
-#define UNIT_FEE        3
-
-bool cmp(const pair<string, int>& lhs, const pair<string, int>& rhs) {
-    return lhs.first < rhs.first;
-}
-
-parkingData makeParkingData(const string& s) {
-    stringstream ss(s);
-    string time, car, type;
-    ss >> time >> car >> type;
-
-    parkingData data;
-    data.time = stoi(time.substr(0, 2)) * 60 + stoi(time.substr(3, 2));
-    data.car = car;
-    data.type = type;
-    return data;
+int toMinute(const string& t) {
+    const int h = (t[0] - '0') * 10 + (t[1] - '0');
+    const int m = (t[3] - '0') * 10 + (t[4] - '0');
+    return h * 60 + m;
 }
 
 vector<int> solution(vector<int> fees, vector<string> records) {
-    map<string, int> timeByCar;
+    vector<int> v[10000];
     for (const string& record : records) {
-        parkingData data = makeParkingData(record);
-        timeByCar[data.car] += (data.type == "IN" ? -data.time : data.time);
+        stringstream ss(record);
+        string time, car, type;
+        ss >> time >> car >> type;
+        v[stoi(car)].push_back(toMinute(time));
     }
-    for (auto& [car, time] : timeByCar)
-        if (time <= 0)
-            time += 24 * 60 - 1;
-    vector<pair<string, int>> parking;
-    for (auto [car, time] : timeByCar) {
-        time = max(0, time - fees[DEFAULT_TIME]);
-        int fee = fees[DEFAULT_FEE];
-        fee += (time / fees[UNIT_TIME] + (time % fees[UNIT_TIME] != 0)) * fees[UNIT_FEE];
-        parking.push_back({car, fee});
-    }
-    sort(parking.begin(), parking.end(), cmp);
+
     vector<int> answer;
-    for (int i = 0; i < parking.size(); i++)
-        answer.push_back(parking[i].second);
+    for (int i = 0; i < 10000; i++) if (!v[i].empty()) {
+        if (v[i].size() & 1) v[i].push_back(23 * 60 + 59);
+
+        int t = 0;
+        for (int j = 1; j < v[i].size(); j += 2) t += v[i][j] - v[i][j - 1];
+
+        int fee = fees[1];
+        if (t > fees[0]) fee += (t - fees[0] + fees[2] - 1) / fees[2] * fees[3];
+        answer.push_back(fee);
+    }
     return answer;
 }
