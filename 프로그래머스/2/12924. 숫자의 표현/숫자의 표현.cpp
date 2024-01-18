@@ -4,8 +4,8 @@ int solution(int n) {
         int sum = 0;
         for (int j = i; sum < n; j++) {
             sum += j;
-            if (sum > n) break;
-            if (sum == n) ++answer;
+            answer += (sum == n);
+            if (sum >= n) break;
         }
     }
     return answer;
