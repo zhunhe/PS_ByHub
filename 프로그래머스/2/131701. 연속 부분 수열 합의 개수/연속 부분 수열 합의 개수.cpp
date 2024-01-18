@@ -5,14 +5,12 @@ using namespace std;
 
 int solution(vector<int> nums) {
     const int len = nums.size();
-    nums.insert(nums.end(), nums.begin(), nums.end());
 
     set<int> st;
-    for (int cnt = 1; cnt < len + 1; cnt++) {
-        for (int idx = 0; idx < len + 1; idx++) {
-            int sum = 0;
-            for (int k = 0; k < cnt; k++)
-                sum += nums[idx + k];
+    for (int i = 0; i < len; i++) {
+        int sum = 0;
+        for (int j = i; j < i + len; j++) {
+            sum += nums[j % len];
             st.insert(sum);
         }
     }
