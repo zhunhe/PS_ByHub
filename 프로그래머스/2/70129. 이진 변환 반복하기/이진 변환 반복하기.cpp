@@ -6,18 +6,22 @@
 
 using namespace std;
 
+string toBinaryString(int num) {
+    string s = "";
+    while (num > 0) {
+        s = (num & 1 ? "1" : "0") + s;
+        num >>= 1;
+    }
+    return s;
+}
+
 vector<int> solution(string s) {
     vector<int> answer(2);
     while (s != "1") {
         ++answer[0];
         answer[1] += count(s.begin(), s.end(), '0');
         s = regex_replace(s, regex("0"), "");
-        int len = s.size();
-        s = "";
-        while (len > 0) {
-            s = (len & 1 ? "1" : "0") + s;
-            len >>= 1;
-        }
+        s = toBinaryString(s.size());
     }
     return answer;
 }
