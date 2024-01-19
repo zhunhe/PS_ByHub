@@ -2,17 +2,16 @@
 using namespace std;
 
 vector<int> solution(vector<int> p, vector<int> s) {
-    vector<int> v(p.size());
-    for (int i = 0; i < v.size(); i++) v[i] = (100 - p[i] + s[i] - 1) / s[i];
-    vector<int> ans(1);
-    int need = v[0];
-    for (int i = 0; i < v.size(); i++) {
-        if (v[i] <= need)
-            ++ans.back();
-        else {
-            need = v[i];
+    vector<int> ans; int need = 0;
+
+    for (int i = 0; i < p.size(); i++) {
+        const int day = (100 - p[i] + s[i] - 1) / s[i];
+        
+        if (ans.empty() || day > need) {
+            need = day;
             ans.push_back(1);
-        }
+        } else
+            ++ans.back();
     }
     return ans;
 }
