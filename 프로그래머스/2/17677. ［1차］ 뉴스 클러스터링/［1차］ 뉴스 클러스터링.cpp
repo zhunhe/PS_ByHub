@@ -19,5 +19,5 @@ int solution(string s1, string s2) {
     for (auto& [key, value] : m1) _union += value;
     for (auto& [key, value] : m2) _union += value;
     _union -= inter;
-    return _union == 0 ? 65536 : inter * 65536 / _union;
+    return _union ? inter * 65536 / _union : 65536;
 }
