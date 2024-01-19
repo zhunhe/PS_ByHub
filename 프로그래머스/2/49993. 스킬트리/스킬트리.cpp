@@ -4,7 +4,7 @@ using namespace std;
 int solution(string skill, vector<string> skill_trees) {
     int ans = 0;
     for (auto s : skill_trees) {
-        int last = -1; bool ok = true;
+        int idx, last = -1; bool ok = true;
         for (auto c : skill) {
             int idx = find(s.begin(), s.end(), c) - s.begin();
             if (last != -1 && idx < last) {
