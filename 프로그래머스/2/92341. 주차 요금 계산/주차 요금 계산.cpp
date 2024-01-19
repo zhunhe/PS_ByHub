@@ -17,7 +17,9 @@ vector<int> solution(vector<int> fees, vector<string> records) {
     }
 
     vector<int> answer;
-    for (int i = 0; i < 10000; i++) if (!v[i].empty()) {
+    for (int i = 0; i < 10000; i++) {
+        if (v[i].empty()) continue;
+
         if (v[i].size() & 1) v[i].push_back(23 * 60 + 59);
 
         int t = 0;
@@ -25,6 +27,7 @@ vector<int> solution(vector<int> fees, vector<string> records) {
 
         int fee = fees[1];
         if (t > fees[0]) fee += (t - fees[0] + fees[2] - 1) / fees[2] * fees[3];
+
         answer.push_back(fee);
     }
     return answer;
