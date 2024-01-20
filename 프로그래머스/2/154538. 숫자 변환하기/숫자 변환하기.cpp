@@ -6,14 +6,14 @@ int solution(int x, int y, int n) {
     q.push({y, 0});
     while (!q.empty()) {
         auto [now, count] = q.front(); q.pop();
+        if (now < x) continue;
         if (now == x)
             return count;
-        if (now % 3 == 0 && now / 3 >= x)
+        if (now % 3 == 0)
             q.push({now / 3, count + 1});
-        if (!(now & 1) && now >> 1 >= x)
+        if (!(now & 1))
             q.push({now >> 1, count + 1});
-        if (now - n >= x)
-            q.push({now - n, count + 1});
+        q.push({now - n, count + 1});
     }
     return -1;
 }
