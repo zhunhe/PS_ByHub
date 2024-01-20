@@ -6,12 +6,16 @@ const int dx[3] = {0, 1, -1};
 
 int b[1001][1001], y, x, dir;
 
+bool isNextBlocked(int n) {
+    const int ny = y + dy[dir], nx = x + dx[dir];
+    return ny < 0 || ny >= n || nx < 0 || nx >= n || b[ny][nx];
+}
+
 vector<int> solution(int n) {
     const int len = n * (n + 1) / 2;
     for (int i = 1; i <= len; i++) {
         b[y][x] = i;
-        const int ny = y + dy[dir], nx = x + dx[dir];
-        if (ny < 0 || ny >= n || nx < 0 || nx >= n || b[ny][nx])
+        if (isNextBlocked(n))
             dir = (dir + 1) % 3;
         y += dy[dir], x += dx[dir];
     }
