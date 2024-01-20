@@ -2,7 +2,7 @@
 using namespace std;
 
 vector<int> solution(vector<int> seq, int k) {
-    long long len = seq.size() + 1, sum = 0;
+    int len = seq.size() + 1, sum = 0;
     vector<int> ans(2);
     for (int r = 0, l = 0; r < seq.size(); r++) {
         sum += seq[r];
