@@ -1,21 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool visited[1000001];
-
 int solution(int x, int y, int n) {
     queue<pair<int, int>> q;
-    visited[x] = true;
-    q.push({x, 0});
+    q.push({y, 0});
     while (!q.empty()) {
-        const auto now = q.front(); q.pop();
-        if (now.first == y)
-            return now.second;
-        for (int next : {now.first + n, now.first * 2, now.first * 3}) {
-            if (next > y || visited[next]) continue;
-            visited[next] = true;
-            q.push({next, now.second + 1});
-        }
+        auto [now, count] = q.front(); q.pop();
+        if (now == x)
+            return count;
+        if (now % 3 == 0 && now / 3 >= x)
+            q.push({now / 3, count + 1});
+        if (!(now & 1) && now >> 1 >= x)
+            q.push({now >> 1, count + 1});
+        if (now - n >= x)
+            q.push({now - n, count + 1});
     }
     return -1;
 }
