@@ -9,11 +9,9 @@ const int dx[4] = {0, 1, 0, -1};
 vector<vector<bool>> visited;
 
 void dfs(int depth, int y, int x, const vector<string>& place) {
-    if (depth != 0 && place[y][x] == 'P') {
-        cout << place[0] << ' ' << y << ' ' << x << ' ' << depth << '\n';
+    if (depth != 0 && place[y][x] == 'P')
         ok = false;
-    }
-    if (depth == 2)
+    if (!ok || depth == 2)
         return;
     for (int k = 0; k < 4; k++) {
         const int ny = y + dy[k], nx = x + dx[k];
@@ -34,10 +32,9 @@ vector<int> solution(vector<vector<string>> places) {
         visited.resize(place.size(), vector<bool>(place[0].size()));
         for (int i = 0; i < place.size(); i++) {
             for (int j = 0; j < place[0].size(); j++) {
-                if (place[i][j] == 'P') {
-                    visited[i][j] = true;
-                    dfs(0, i, j, place);
-                }
+                if (place[i][j] != 'P') continue;
+                visited[i][j] = true;
+                dfs(0, i, j, place);
             }
         }   
         ans.push_back(ok);
