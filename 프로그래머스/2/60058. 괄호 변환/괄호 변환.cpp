@@ -3,7 +3,7 @@ using namespace std;
 
 bool isRightString(string s) {
     int cnt = 0;
-    for (char c : s) {
+    for (const auto c : s) {
         c == '(' ? ++cnt : --cnt;
         if (cnt < 0) return false;
     }
@@ -11,7 +11,7 @@ bool isRightString(string s) {
 }
 
 string flip(string s) {
-    for (char& c : s)
+    for (auto& c : s)
         c = c == '(' ? ')' : '(';
     return s;
 }
@@ -26,8 +26,7 @@ string solution(string s) {
         string v = s.substr(i + 1);
         if (isRightString(u))
             return u + solution(v);
-        else
-            return "(" + solution(s.substr(i + 1)) + ")" + flip(u.substr(1, u.size() - 2));
+        return "(" + solution(s.substr(i + 1)) + ")" + flip(u.substr(1, u.size() - 2));
     }
     return solution(s);
 }
