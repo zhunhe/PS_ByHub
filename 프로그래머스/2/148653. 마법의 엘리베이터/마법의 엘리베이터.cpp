@@ -3,7 +3,7 @@ using namespace std;
 
 int solution(int storey) {
     int ans = 0;
-    while (storey > 10) {
+    while (storey > 0) {
         int digit = storey % 10;
         storey /= 10;
         if (digit > 5 || (digit == 5 && storey % 10 >= 5)) {
@@ -12,5 +12,5 @@ int solution(int storey) {
         } else
             ans += digit;
     }
-    return ans + min(10 - storey + 1, storey);
+    return ans;
 }
