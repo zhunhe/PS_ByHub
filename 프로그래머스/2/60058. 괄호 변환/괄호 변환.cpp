@@ -21,12 +21,13 @@ string solution(string s) {
     int cnt = 0;
     for (int i = 0; i < s.size(); i++) {
         s[i] == '(' ? ++cnt : --cnt;
-        if (cnt == 0) {
-            if (isRightString(s.substr(0, i + 1)))
-                return s.substr(0, i + 1) + solution(s.substr(i + 1));
-            else
-                return "(" + solution(s.substr(i + 1)) + ")" + flip(s.substr(1, i - 1));
-        }
+        if (cnt != 0) continue;
+        string u = s.substr(0, i + 1);
+        string v = s.substr(i + 1);
+        if (isRightString(u))
+            return u + solution(v);
+        else
+            return "(" + solution(s.substr(i + 1)) + ")" + flip(u.substr(1, u.size() - 2));
     }
     return solution(s);
 }
