@@ -25,37 +25,22 @@ string solution(string m, vector<string> musicinfos) {
     string ans = "";
     int maxLen = 0;
     for (auto musicinfo : musicinfos) {
-        // musicinfo = regex_replace(musicinfo, regex(","), " ");
         stringstream ss(musicinfo);
-        // string s, e, title, repeat;
-        // ss >> s >> e >> title >> repeat;
+        string s, e, title, repeat;
 
-        string tmp;
-        getline(ss, tmp, ':');
-        int start = stoi(tmp) * 60;
-        getline(ss, tmp, ',');
-        start += stoi(tmp);
-        
-        getline(ss, tmp, ':');
-        int end = stoi(tmp) * 60;
-        getline(ss, tmp, ',');
-        end += stoi(tmp);
-        
-        const int playTime = end - start;
-        
-        getline(ss, tmp, ',');
-        const string title = tmp;
-        
-        getline(ss, tmp, ',');
-        string repeat = tmp;
+        getline(ss, s, ',');
+        getline(ss, e, ',');
+        getline(ss, title, ',');
+        getline(ss, repeat, ',');
 
         repeat = replaceSharpToLower(repeat);
-        // const int playTime = calculateLen(s, e);
-        repeat = conv(repeat, playTime);
+        const int len = calculateLen(s, e);
+        repeat = conv(repeat, len);
 
-        if (repeat.find(m) != string::npos && maxLen < playTime) {
+        if (repeat.find(m) == string::npos) continue;
+        if (maxLen < len) {
             ans = title;
-            maxLen = playTime;
+            maxLen = len;
         }
     }
     return ans.empty() ? "(None)" : ans;
