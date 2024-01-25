@@ -2,7 +2,5 @@
 using namespace std;
 
 string solution(string s, string alp) {
-    for (auto& c : s)
-        c = c == alp[0] ? toupper(c) : c;
-    return s;
+    return regex_replace(s, regex(alp), string(1, toupper(alp[0])));
 }
