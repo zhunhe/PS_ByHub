@@ -1,9 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string solution(vector<string> arr) {
-    string ans = "";
-    for (const auto& s : arr)
-        ans += s;
-    return ans;
+string solution(vector<string> v) {
+    return accumulate(v.begin(), v.end(), string(""));
 }
