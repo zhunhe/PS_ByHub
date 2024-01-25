@@ -18,24 +18,26 @@ pair<int, int> calculateNext(const vector<string>& board, int y, int x, int dir)
 
 int solution(vector<string> board) {
     const int h = board.size(), w = board[0].size();
+    queue<pair<int, int>> q;
     int ans = 0;
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
             if (board[i][j] != 'R') continue;
-            queue<pair<int, int>> q;
             q.push({i, j});
             visited[i][j] = 1;
-            while (!q.empty()) {
-                auto [y, x] = q.front(); q.pop();
-                if (board[y][x] == 'G')
-                    return visited[y][x] - 1;
-                for (int dir = 0; dir < 4; dir++) {
-                    auto [ny, nx] = calculateNext(board, y, x, dir);
-                    if (visited[ny][nx]) continue;
-                    visited[ny][nx] = visited[y][x] + 1;
-                    q.push({ny, nx});
-                }
-            }
+            break;
+        }
+    }
+    
+    while (!q.empty()) {
+        auto [y, x] = q.front(); q.pop();
+        if (board[y][x] == 'G')
+            return visited[y][x] - 1;
+        for (int dir = 0; dir < 4; dir++) {
+            auto [ny, nx] = calculateNext(board, y, x, dir);
+            if (visited[ny][nx]) continue;
+            visited[ny][nx] = visited[y][x] + 1;
+            q.push({ny, nx});
         }
     }
     return -1;
