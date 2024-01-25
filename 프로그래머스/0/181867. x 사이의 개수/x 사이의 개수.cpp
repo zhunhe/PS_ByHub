@@ -2,14 +2,11 @@
 using namespace std;
 
 vector<int> solution(string s) {
-    vector<int> ans;
-    int cnt = 0;
-    for (auto c : s) {
-        if (c == 'x')
-            ans.push_back(cnt), cnt = 0;
-        else
-            ++cnt;
-    }
-    ans.push_back(cnt);
+    stringstream ss(s);
+    vector<int> ans; string tmp;
+    while (getline(ss, tmp, 'x'))
+        ans.push_back(tmp.size());
+    if (s.back() == 'x')
+        ans.push_back(0);
     return ans;
 }
