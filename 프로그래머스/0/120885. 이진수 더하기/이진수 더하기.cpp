@@ -1,18 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define DEC(s)   accumulate(s.begin(), s.end(), 0, [](const auto& sum, const auto& c) { return (sum << 1) + (c == '1'); })
+
 string solution(string s1, string s2) {
-    const auto num1 = accumulate(s1.begin(), s1.end(), 0, [](const auto& sum, const auto& c) {
-        return (sum << 1) + (c == '1');
-    });
-    const auto num2 = accumulate(s2.begin(), s2.end(), 0, [](const auto& sum, const auto& c) {
-        return (sum << 1) + (c == '1');
-    });
-    int sum = num1 + num2;
     string ans = "";
-    while (sum > 0) {
-        sum & 1 ? ans = "1" + ans : ans = "0" + ans;
-        sum >>= 1;
-    }
+    for (int n = DEC(s1) + DEC(s2); n > 0; n >>= 1) ans = char((n & 1) + '0') + ans;
     return ans.empty() ? "0" : ans;
 }
