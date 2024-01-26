@@ -3,25 +3,20 @@ using namespace std;
 
 int solution(int a, int b, int c, int d) {
     set<int> st = {a, b, c, d};
+    vector<int> v = {a, b, c, d};
+    sort(v.begin(), v.end());
     switch (st.size()) {
         case 1: return 1111 * a;
         case 2:
-            if (a == b && c == d) return (a + c) * abs(a - c);
-            if (a == c && b == d) return (a + b) * abs(a - b);
-            if (a == d && b == c) return (a + b) * abs(a - b);
+            if (v[0] == v[1] && v[2] == v[3]) return (v[0] + v[2]) * (v[2] - v[0]);
 
-            if (b == c && c == d) return pow(10 * b + a, 2);
-            if (a == c && c == d) return pow(10 * c + b, 2);
-            if (a == b && b == d) return pow(10 * d + c, 2);
-            if (a == b && b == c) return pow(10 * a + d, 2);
+            if (v[0] == v[1] && v[0] != v[3]) return pow(10 * v[0] + v[3], 2);
+            if (v[3] == v[2] && v[3] != v[0]) return pow(10 * v[3] + v[0], 2);
         case 3:
-            if (a == b) return c * d;
-            if (a == c) return b * d;
-            if (a == d) return b * c;
-            if (b == c) return a * d;
-            if (b == d) return a * c;
-            if (c == d) return a * b;
-        case 4: return min({a, b, c, d});
+            if (v[0] == v[1]) return v[2] * v[3];
+            if (v[1] == v[2]) return v[0] * v[3];
+            if (v[2] == v[3]) return v[0] * v[1];
+        case 4: return *min_element(v.begin(), v.end());
     }
     return 0;
 }
