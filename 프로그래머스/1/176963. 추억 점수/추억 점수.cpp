@@ -7,7 +7,7 @@ vector<int> solution(vector<string> name, vector<int> yearning, vector<vector<st
     vector<int> ans;
     for (auto v : photo) {
         const int point = accumulate(v.cbegin(), v.cend(), 0, [&](auto sum, auto s) {
-            return sum + (m.find(s) != m.end() ? m[s] : 0);
+            return sum + m[s];
         });
         ans.push_back(point);
     }
