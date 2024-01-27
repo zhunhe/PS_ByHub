@@ -1,17 +1,12 @@
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int solution(int n) {
-    vector<bool> isPrimes(1000001, true);
+    vector<bool> prime(n + 1, true);
     for (long long i = 2; i < n + 1; i++) {
-        if (!isPrimes[i]) continue;
+        if (!prime[i]) continue;
         for (long long j = i * i; j < n + 1; j += i)
-            isPrimes[j] = false;
+            prime[j] = false;
     }
-    int ans = 0;
-    for (int i = 2; i < n + 1; i++)
-        ans += isPrimes[i];
-    return ans;
+    return count(prime.begin() + 2, prime.end(), true);
 }
