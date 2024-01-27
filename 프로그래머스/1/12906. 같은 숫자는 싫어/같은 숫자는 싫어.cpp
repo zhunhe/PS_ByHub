@@ -2,9 +2,6 @@
 using namespace std;
 
 vector<int> solution(vector<int> arr) {
-    vector<int> ans;
-    for (int num : arr)
-        if (ans.empty() || ans.back() != num)
-            ans.push_back(num);
-    return ans;
+    arr.erase(unique(arr.begin(), arr.end()), arr.end());
+    return arr;
 }
