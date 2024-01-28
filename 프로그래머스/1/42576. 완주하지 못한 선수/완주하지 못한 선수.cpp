@@ -1,15 +1,12 @@
-#include <string>
-#include <vector>
-#include <map>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 string solution(vector<string> participant, vector<string> completion) {
-    map<string, int> result;
-    for (const string& s : participant) ++result[s];
-    for (const string& s : completion) --result[s];
-    for (auto [key, value] : result)
-        if (value > 0)
-            return key;
+    unordered_map<string, int> m;
+    for (auto s : completion) ++m[s];
+    for (auto s : participant) {
+        if (m.find(s) == m.end()) return s;
+        if (--m[s] == 0) m.erase(s);
+    }
     return "";
 }
