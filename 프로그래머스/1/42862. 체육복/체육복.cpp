@@ -1,23 +1,16 @@
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int solution(int n, vector<int> lost, vector<int> reserve) {
-    vector<int> cnt(n + 1);
-    for (int elem : lost) --cnt[elem];
-    for (int elem : reserve) ++cnt[elem];
-    for (int i = 1; i < n + 1; i++) {
-        if (cnt[i] == -1) {
-            if (cnt[i - 1] == 1)
-                cnt[i - 1] = cnt[i] = 0;
-            else if (cnt[i + 1] == 1)
-                cnt[i + 1] = cnt[i] = 0;
-        }
+    vector<int> has(n + 2, 1); has[0] = 0, has[n + 1] = 0;
+    for (int elem : lost) --has[elem];
+    for (int elem : reserve) ++has[elem];
+    for (int i = 1; i <= n; i++) {
+        if (has[i]) continue;
+        if (has[i - 1] > 1)
+            ++has[i], --has[i - 1];
+        else if (has[i + 1] > 1)
+            ++has[i], --has[i + 1];
     }
-    int answer = 0;
-    for (int i = 1; i < n + 1; i++)
-        if (cnt[i] >= 0)
-            ++answer;
-    return answer;
+    return count_if(has.begin() + 1, has.end(), [](auto elem) { return elem >= 1; });
 }
