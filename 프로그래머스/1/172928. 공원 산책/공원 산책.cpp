@@ -1,43 +1,37 @@
-#include <string>
-#include <vector>
-#include <unordered_map>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-unordered_map<char, pair<int, int>> m = {
-    {'E', {0, 1}}, {'W', {0, -1}}, {'S', {1, 0}}, {'N', {-1, 0}}
-};
+unordered_map<char, int> m = { {'N', 0}, {'E', 1}, {'S', 2}, {'W', 3} };
+
+const int dy[4] = {-1, 0, 1, 0};
+const int dx[4] = {0, 1, 0, -1};
+
+bool isValidRoute(const vector<string>& park, char dir, int y, int x, int count) {
+    for (int i = 1; i < count + 1; i++) {
+        const int ny = y + dy[m[dir]] * i, nx = x + dx[m[dir]] * i;
+        if (park[ny][nx] == 'X')
+            return false;
+    }
+    return true;
+}
 
 vector<int> solution(vector<string> park, vector<string> routes) {
-    int y, x, h = park.size(), w = park[0].size();
-    for (int i = 0; i < h; i++)
-        for (int j = 0; j < w; j++)
-            if (park[i][j] == 'S')
-                y = i, x = j;
-    for (const string& route : routes) {
-        const char dir = route[0];
-        const int dist = route[2] - '0';
-        const int ny = y + m[dir].first * dist;
-        const int nx = x + m[dir].second * dist;
-        if (ny < 0 || nx < 0 || ny >= h || nx >= w) continue;
-        bool cannotMove = false;
-        if (dir == 'E')
-            for (int i = x; i <= nx; i++)
-                if (park[y][i] == 'X')
-                    cannotMove = true;
-        if (dir == 'W')
-            for (int i = x; i >= nx; i--)
-                if (park[y][i] == 'X')
-                    cannotMove = true;
-        if (dir == 'S')
-            for (int i = y; i <= ny; i++)
-                if (park[i][x] == 'X')
-                    cannotMove = true;
-        if (dir == 'N')
-            for (int i = y; i >= ny; i--)
-                if (park[i][x] == 'X')
-                    cannotMove = true;
-        if (cannotMove) continue;
+    int y, x;
+    for (int i = 0; i < park.size(); i++) {
+        for (int j = 0; j < park[0].size(); j++) {
+            if (park[i][j] != 'S') continue;
+            y = i, x = j;
+            break;
+        }
+    }
+    for (auto s : routes) {
+        stringstream ss(s);
+        char dir; int count;
+        ss >> dir >> count;
+
+        const int ny = y + dy[m[dir]] * count, nx = x + dx[m[dir]] * count;
+        if (ny < 0 || nx < 0 || ny >= park.size() || nx >= park[0].size()) continue;
+        if (!isValidRoute(park, dir, y, x, count)) continue;
         y = ny, x = nx;
     }
     return {y, x};
