@@ -1,30 +1,15 @@
-#include <vector>
-#include <map>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-#define CODE    0
-#define DATE    1
-#define MAXIMUM 2
-#define REMAIN  3
-
-string sortBy;
-
-map<string, int> m = {
-    {"code", 0}, {"date", 1}, {"maximum", 2}, {"remain", 3}
+unordered_map<string, int> m = {
+    {"code", 0}, {"date", 1}, {"maximum", 2} , {"remain", 3}
 };
 
-bool compare(const vector<int>& lhs, const vector<int>& rhs) {
-    return lhs[m[sortBy]] < rhs[m[sortBy]];
-}
-
 vector<vector<int>> solution(vector<vector<int>> data, string ext, int val_ext, string sort_by) {
-    vector<vector<int>> answer;
-    sortBy = sort_by;
-    for (int i = 0; i < data.size(); i++)
-        if (data[i][m[ext]] < val_ext)
-            answer.push_back(data[i]);
-    sort(answer.begin(), answer.end(), compare);
-    return answer;
+    vector<vector<int>> ans;
+    for (const auto& v : data) if (v[m[ext]] < val_ext) ans.push_back(v);
+    sort(ans.begin(), ans.end(), [=](auto lhs, auto rhs) {
+        return lhs[m[sort_by]] < rhs[m[sort_by]];
+    });
+    return ans;
 }
