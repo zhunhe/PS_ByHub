@@ -1,24 +1,22 @@
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-#define INF 987654321
-
 vector<int> solution(vector<string> keymap, vector<string> targets) {
-    vector<int> cnt(26, INF);
-    for (const string& key : keymap)
-        for (int i = 0; i < key.size(); i++)
-            cnt[key[i] - 'A'] = min(cnt[key[i] - 'A'], i + 1);
-    vector<int> answer(targets.size());
-    for (int i = 0; i < targets.size(); i++) {
-        for (const char c : targets[i]) {
-            if (cnt[c - 'A'] == INF) {
-                answer[i] = -1;
+    vector<int> ans;
+    unordered_map<char, int> m;
+    for (auto s : keymap)
+        for (int i = 0; i < s.size(); i++)
+            m[s[i]] = m.find(s[i]) == m.end() ? i + 1 : min(m[s[i]], i + 1);
+    for (auto s : targets) {
+        int cnt = 0;
+        for (auto c : s) {
+            if (m.find(c) == m.end()) {
+                cnt = -1;
                 break;
             }
-            answer[i] += cnt[c - 'A'];
+            cnt += m[c];
         }
+        ans.push_back(cnt);
     }
-    return answer;
+    return ans;
 }
