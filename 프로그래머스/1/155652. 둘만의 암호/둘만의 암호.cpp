@@ -1,18 +1,14 @@
-#include <string>
-#include <vector>
-
-#include <iostream>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 string solution(string s, string skip, int index) {
-    vector<bool> skips(26);
-    for (char c : skip) skips[c - 'a'] = true;
-    for (char& c : s) {
+    for (auto& c : s) {
         for (int i = 0; i < index; i++) {
-            c = c + 1 > 'z' ? 'a' : c + 1;
-            while (skips[c - 'a'])
-                c = c + 1 > 'z' ? 'a' : c + 1;
+            if (++c == 'z' + 1)
+                c = 'a';
+            while (skip.find(c) != string::npos)
+                if (++c == 'z' + 1)
+                    c = 'a';
         }
     }
     return s;
