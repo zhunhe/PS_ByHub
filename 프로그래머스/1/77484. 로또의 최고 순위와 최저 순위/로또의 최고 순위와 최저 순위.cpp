@@ -1,17 +1,11 @@
-#include <vector>
-#include <map>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 vector<int> solution(vector<int> lottos, vector<int> win_nums) {
-    vector<int> rank = {6, 6, 5, 4, 3, 2, 1};
-    vector<bool> check(47);
-    for (int num : win_nums) check[num] = true;
-    int cnt = 0;
-    for (int lotto : lottos) cnt += check[lotto];
-    int zeroCnt = 0;
-    for (int lotto : lottos)
-        if (lotto == 0)
-            ++zeroCnt;
-    return {rank[cnt + zeroCnt], rank[cnt]};
+    const int zero = count(lottos.begin(), lottos.end(), 0);
+    int same = 0;
+    for (auto lotto : lottos)
+        if (find(win_nums.begin(), win_nums.end(), lotto) != win_nums.end())
+            ++same;
+    return {min(6, 7 - same - zero), min(6, 7 - same)};
 }
