@@ -1,18 +1,16 @@
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int solution(string s) {
-    int answer = 0, cnt = 0;
-    char c = s[0];
+    int ans = 0, cnt = 0;
+    char x = s[0];
     for (int i = 0; i < s.size(); i++) {
-        if (cnt == 0) c = s[i];
-        s[i] == c ? ++cnt : --cnt;
+        s[i] == x ? ++cnt : --cnt;
         if (cnt == 0) {
-            ++answer;
-            c = 0;
+            ++ans;
+            cnt = 0;
+            if (i - 1 < s.size()) x = s[i + 1];
         }
     }
-    return answer + (c != 0);
+    return ans + (cnt != 0);
 }
