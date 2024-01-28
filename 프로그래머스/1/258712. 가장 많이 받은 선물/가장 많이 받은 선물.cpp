@@ -2,21 +2,24 @@
 using namespace std;
 
 int solution(vector<string> friends, vector<string> gifts) {
-    unordered_map<string, int> indexByName;
-    const int len = friends.size();
-    for (int i = 0; i < len; i++) indexByName[friends[i]] = i;
-    vector<int> points(len);
-    vector<vector<int>> record(len, vector<int>(len));
+    unordered_map<string, int> m;
+    for (int i = 0; i < friends.size(); i++) m[friends[i]] = i;
+
+    vector<int> points(friends.size());
+    vector<vector<int>> record(friends.size(), vector<int>(friends.size()));
+
     for (const auto& s : gifts) {
         stringstream ss(s);
         string from, to; ss >> from >> to;
-        ++record[indexByName[from]][indexByName[to]];
-        ++points[indexByName[from]];
-        --points[indexByName[to]];
+        ++record[m[from]][m[to]];
+        ++points[m[from]];
+        --points[m[to]];
     }
-    vector<int> presents(len);
-    for (int from = 0; from < len; from++) {
-        for (int to = from + 1; to < len; to++) {
+    vector<int> presents(friends.size());
+    for (int from = 0; from < friends.size(); from++) {
+        for (int to = from + 1; to < friends.size(); to++) {
+            if (from == to) continue;
+
             if (record[from][to] > record[to][from])
                 ++presents[from];
             else if (record[from][to] < record[to][from])
