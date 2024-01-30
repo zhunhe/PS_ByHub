@@ -1,6 +1,14 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 int solution(int n) {
-    int ans = 0;
-    while (n > 0)
-        n & 1 ? --n, ++ans : n >>= 1;
-    return ans;
+    deque<pair<int, int>> dq;
+    dq.push_back({n, 0});
+    while (!dq.empty()) {
+        int now = dq.front().first, move = dq.front().second; dq.pop_front();
+        if (now == 0)
+            return move;
+        if (!(now & 1)) dq.push_front({now >> 1, move});
+        else dq.push_back({now - 1, move + 1});
+    }
 }
