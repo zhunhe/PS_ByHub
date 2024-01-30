@@ -1,22 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool cmp(const pair<int, int>& lhs, const pair<int, int>& rhs) {
-    return lhs.first > rhs.first;
-}
-
-int cnt[100002];
-
 vector<int> solution(string s) {
-    s = regex_replace(s, regex("[},\\{]"), " ");
+    s = regex_replace(s, regex("\\{\\{|}}"), "");
+    s = regex_replace(s, regex("}|,|\\{"), " ");
+    map<int, int> m;
     stringstream ss(s); int num;
-    while (ss >> num) ++cnt[num];
-    vector<pair<int, int>> v;
-    for (int i = 0; i < 100001; i++)
-        if (cnt[i])
-            v.push_back({cnt[i], i});
-    sort(v.begin(), v.end(), cmp);
+    while (ss >> num) ++m[num];
+    priority_queue<pair<int, int>> pq;
+    for (auto [key, value] : m) pq.push({value, key});
     vector<int> ans;
-    for (auto elem : v) ans.push_back(elem.second);
+    while (!pq.empty())
+        ans.push_back(pq.top().second), pq.pop();
     return ans;
 }
