@@ -1,18 +1,16 @@
-#include <vector>
-#include <set>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int solution(vector<int> nums) {
-    const int len = nums.size();
-
-    set<int> st;
-    for (int i = 0; i < len; i++) {
+int solution(vector<int> elements) {
+    const int len = elements.size();
+    elements.insert(elements.end(), elements.begin(), elements.end());
+    unordered_map<int, int> m;
+    for (int i = 0; i < elements.size(); i++) {
         int sum = 0;
-        for (int j = i; j < i + len; j++) {
-            sum += nums[j % len];
-            st.insert(sum);
+        for (int j = 0; j < len && i + j < elements.size(); j++) {
+            sum += elements[i + j];
+            ++m[sum];
         }
     }
-    return st.size();
+    return m.size();
 }
