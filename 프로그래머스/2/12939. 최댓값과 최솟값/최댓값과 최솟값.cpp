@@ -1,16 +1,9 @@
-#include <string>
-#include <sstream>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 string solution(string s) {
     stringstream ss(s);
-    vector<int> nums;
-    while (ss) {
-        int num; ss >> num;
-        nums.push_back(num);
-    }
-    sort(nums.begin(), nums.end());
-    return to_string(nums[0]) + " " + to_string(nums.back());
+    int _min = INT_MAX, _max = INT_MIN, tmp;
+    while (ss >> tmp) _min = min(_min, tmp), _max = max(_max, tmp);
+    return to_string(_min) + " " + to_string(_max);
 }
