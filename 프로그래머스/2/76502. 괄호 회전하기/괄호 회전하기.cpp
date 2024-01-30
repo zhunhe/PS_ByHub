@@ -1,26 +1,20 @@
-#include <string>
-#include <vector>
-#include <stack>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int rotateAndCheck(string s, int rotateCnt) {
-    rotate(s.begin(), s.begin() + rotateCnt, s.end());
-    stack<char> st;
-    for (char c : s) {
-        if (st.empty()) st.push(c);
-        else if (c == ']' && st.top() == '[') st.pop();
-        else if (c == '}' && st.top() == '{') st.pop();
-        else if (c == ')' && st.top() == '(') st.pop();
-        else st.push(c);
+bool isValid(const string& s) {
+    unordered_map<char, char> m = { {')', '('}, {'}', '{'}, {']', '['} };
+    stack<char> stk;
+    for (const auto& c : s) {
+        stk.empty() || stk.top() != m[c] ? stk.push(c) : stk.pop();
     }
-    return st.empty();
+    return stk.empty();
 }
 
 int solution(string s) {
-    int ans = 0;
-    for (int i = 0; i < s.size(); i++)
-        ans += rotateAndCheck(s, i);
+    int ans = isValid(s);
+    for (int i = 1; i < s.size(); i++) {
+        rotate(s.begin(), s.begin() + 1, s.end());
+        if (isValid(s)) ++ans;
+    }
     return ans;
 }
