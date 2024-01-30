@@ -1,27 +1,17 @@
-#include <string>
-#include <bitset>
-#include <regex>
-
-#include <iostream>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-string toBinaryString(int num) {
-    string s = "";
-    while (num > 0) {
-        s = (num & 1 ? "1" : "0") + s;
-        num >>= 1;
-    }
-    return s;
-}
-
 vector<int> solution(string s) {
-    vector<int> answer(2);
+    vector<int> ans(2);
     while (s != "1") {
-        ++answer[0];
-        answer[1] += count(s.begin(), s.end(), '0');
-        s = regex_replace(s, regex("0"), "");
-        s = toBinaryString(s.size());
+        int len = count(s.begin(), s.end(), '1');
+        ans[1] += s.size() - len;
+        s = "";
+        while (len > 0) {
+            s = (len & 1 ? "1" : "0") + s;
+            len >>= 1;
+        }
+        ++ans[0];
     }
-    return answer;
+    return ans;
 }
