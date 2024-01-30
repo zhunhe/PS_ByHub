@@ -1,16 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int ans, i, arr[10];
-
 int solution(vector<int> v, int location) {
-    const int len = v.size();
-    for (auto elem : v) ++arr[elem];
-    for (int num = 9; num > 0; num--) while (arr[num]--) {
-        while (v[i] != num) i = (i + 1) % len;
-        ++ans;
-        if (i == location) return ans;
-        i = (i + 1) % len;
+    int now = 0;
+    for (int i = 0; i < v.size(); i++) {
+        int _max = *max_element(v.begin(), v.end());
+        while (v[now] < _max) now = (now + 1) % v.size();
+        if (now == location) return i + 1;
+        v[now] = 0;
+        while (v[now] == 0) now = (now + 1) % v.size();
     }
-    return ans;
+    return v.size();
 }
