@@ -1,12 +1,10 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 long long solution(int n) {
-    if (n <= 2)
-        return n;
-    long long ans = 2, a = 0, b = 1;
-    for (int i = 3; i < n + 1; i++) {
-        int tmp = ans;
-        ans = (ans + b) % 1234567;
-        a = b;
-        b = tmp;
-    }
-    return ans;
+    vector<long long> dp(n + 1);
+    dp[1] = 1, dp[2] = 2;
+    for (int i = 3; i < n + 1; i++)
+        dp[i] = (dp[i - 2] + dp[i - 1]) % 1234567;
+    return dp[n];
 }
