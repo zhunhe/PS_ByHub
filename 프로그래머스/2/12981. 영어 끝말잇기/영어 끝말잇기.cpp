@@ -1,17 +1,14 @@
-#include <string>
-#include <vector>
-#include <unordered_map>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 vector<int> solution(int n, vector<string> words) {
-    unordered_map<string, bool> isUsed;
-    isUsed[words[0]] = true;
-    for (int i = 1; i < words.size(); i++) {
-        if (isUsed[words[i]]) return {i % n + 1, (i + n) / n};
-        if (words[i].size() == 1) return {i % n + 1, (i + n) / n};
-        isUsed[words[i]] = true;
-        if (words[i - 1].back() != words[i].front()) return {i % n + 1, (i + n) / n};
+    unordered_map<string, bool> m;
+    string last = string(1, words[0].front());
+    for (int i = 0; i < words.size(); i++) {
+        if (last.back() != words[i].front() || m.find(words[i]) != m.end())
+            return {i % n + 1, i / n + 1};
+        m[words[i]] = true;
+        last = words[i];
     }
     return {0, 0};
 }
