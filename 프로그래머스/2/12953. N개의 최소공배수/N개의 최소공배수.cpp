@@ -1,18 +1,6 @@
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int gcd(int a, int b) {
-    if (a % b == 0)
-        return b;
-    return gcd(b, a % b);
-}
-
-int solution(vector<int> arr) {
-    while (arr.size() > 1) {
-        int num1 = arr.back(); arr.pop_back();
-        int num2 = arr.back(); arr.pop_back();
-        arr.push_back(num1 * num2 / gcd(num1, num2));
-    }
-    return arr.back();
+int solution(vector<int> v) {
+    return accumulate(v.begin(), v.end(), 1, [](auto lcm, auto num) { return lcm / gcd(lcm, num) * num;});
 }
