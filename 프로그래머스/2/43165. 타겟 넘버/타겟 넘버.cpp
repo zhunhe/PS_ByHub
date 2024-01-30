@@ -1,14 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int solution(vector<int> nums, int target) {
-    int ans = 0, size = 1 << nums.size();
+int t, ans;
+vector<int> nums;
 
-    for (int i = 0; i < size; i++) {
-        int sum = 0;
-        for (int j = 0; j < nums.size(); j++)
-            i & (1 << j) ? sum -= nums[j] : sum += nums[j];
-        if (sum == target) ++ans;
+void dfs(int depth, int sum) {
+    if (depth == nums.size()) {
+        if (sum == t) ++ans;
+        return;
     }
+    dfs(depth + 1, sum + nums[depth]);
+    dfs(depth + 1, sum - nums[depth]);
+}
+
+int solution(vector<int> numbers, int target) {
+    nums = numbers;
+    t = target;
+    dfs(0, 0);
     return ans;
 }
