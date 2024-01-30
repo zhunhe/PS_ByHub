@@ -1,17 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> solution(vector<int> p, vector<int> s) {
-    vector<int> ans; int need = 0;
-
-    for (int i = 0; i < p.size(); i++) {
-        const int day = (100 - p[i] + s[i] - 1) / s[i];
-        
-        if (ans.empty() || day > need) {
-            need = day;
-            ans.push_back(1);
-        } else
-            ++ans.back();
+vector<int> solution(vector<int> progresses, vector<int> speeds) {
+    vector<int> remain;
+    for (int i = 0; i < speeds.size(); i++) remain.push_back((100 - progresses[i] + speeds[i] - 1) / speeds[i]);
+    for (auto elem : remain) cout << elem << ' ';
+    vector<int> ans;
+    int day = remain[0]; int cnt = 0;
+    for (auto elem : remain) {
+        if (elem <= day) ++cnt;
+        else {
+            ans.push_back(cnt);
+            cnt = 1;
+            day = elem;
+        }
     }
+    if (cnt > 0) ans.push_back(cnt);
     return ans;
 }
