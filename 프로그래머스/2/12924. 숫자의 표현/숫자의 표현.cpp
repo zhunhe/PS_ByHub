@@ -1,12 +1,15 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 int solution(int n) {
-    int answer = 0;
-    for (int i = 1; i < n + 1; i++) {
+    int ans = 0;
+    for (int i = 1; i <= n >> 1; i++) {
         int sum = 0;
-        for (int j = i; sum < n; j++) {
+        for (int j = i; j < n; j++) {
             sum += j;
-            answer += (sum == n);
-            if (sum >= n) break;
+            if (sum > n) break;
+            if (sum == n) ++ans;
         }
     }
-    return answer;
+    return ans + 1;
 }
