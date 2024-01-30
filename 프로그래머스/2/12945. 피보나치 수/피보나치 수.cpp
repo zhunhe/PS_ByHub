@@ -1,16 +1,10 @@
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-vector<int> cache(100002, -1);
-
-int fibo(int n) {
-    if (n < 3) return 1;
-    if (cache[n] != -1) return cache[n];
-    return cache[n] = (fibo(n - 2) + fibo(n - 1)) % 1234567;
-}
-
 int solution(int n) {
-    return fibo(n);
+    vector<int> fibo(n + 1);
+    fibo[1] = 1;
+    for (int i = 2; i < n + 1; i++)
+        fibo[i] = (fibo[i - 1] + fibo[i - 2]) % 1234567;
+    return fibo[n];
 }
