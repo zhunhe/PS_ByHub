@@ -1,34 +1,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int toMinute(const string& t) {
-    const int h = (t[0] - '0') * 10 + (t[1] - '0');
-    const int m = (t[3] - '0') * 10 + (t[4] - '0');
-    return h * 60 + m;
-}
+vector<int> record[10000];
 
 vector<int> solution(vector<int> fees, vector<string> records) {
-    vector<int> v[10000];
-    for (const string& record : records) {
-        stringstream ss(record);
-        string time, car, type;
-        ss >> time >> car >> type;
-        v[stoi(car)].push_back(toMinute(time));
+    for (auto s : records) {
+        stringstream ss(s);
+        string t; int car; string type;
+        ss >> t >> car >> type;
+        const int min = stoi(t.substr(0, 2)) * 60 + stoi(t.substr(3, 2));
+        record[car].push_back(type == "IN" ? -min : min);
     }
-
-    vector<int> answer;
+    vector<int> ans;
     for (int i = 0; i < 10000; i++) {
-        if (v[i].empty()) continue;
-
-        if (v[i].size() & 1) v[i].push_back(23 * 60 + 59);
-
-        int t = 0;
-        for (int j = 1; j < v[i].size(); j += 2) t += v[i][j] - v[i][j - 1];
-
+        if (record[i].empty()) continue;
+        if (record[i].size() & 1) record[i].push_back(23 * 60 + 59);
+        const int min = reduce(record[i].begin(), record[i].end());
         int fee = fees[1];
-        if (t > fees[0]) fee += (t - fees[0] + fees[2] - 1) / fees[2] * fees[3];
-
-        answer.push_back(fee);
+        if (min > fees[0]) fee += (min - fees[0] + fees[2] - 1) / fees[2] * fees[3];
+        ans.push_back(fee);
     }
-    return answer;
+    return ans;
 }
