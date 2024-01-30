@@ -1,14 +1,8 @@
-#include <vector>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int solution(vector<int> A, vector<int> B)
-{
+int solution(vector<int> A, vector<int> B) {
     sort(A.begin(), A.end());
-    sort(B.begin(), B.end(), greater<>());
-    int answer = 0;
-    for (int i = 0; i < A.size(); i++)
-        answer += A[i] * B[i];
-    return answer;
+    sort(B.rbegin(), B.rend());
+    return inner_product(A.begin(), A.end(), B.begin(), 0);
 }
