@@ -2,29 +2,19 @@
 using namespace std;
 
 int solution(int cacheSize, vector<string> cities) {
-    if (cacheSize == 0) return cities.size() * 5;
-    deque<string> dq;
+    deque<string> cache;
     int ans = 0;
-
-    for (auto city : cities) {
-        transform(city.begin(), city.end(), city.begin(), ::toupper);
-
-        if (dq.empty()) {
-            ans += 5;
-            dq.push_back(city);
-            continue;
-        }
-        auto it = find(dq.begin(), dq.end(), city);
-        if (it == dq.end()) {
-            ans += 5;
-            if (dq.size() == cacheSize)
-                dq.pop_front();
-            dq.push_back(city);
-        } else {
+    for (auto s : cities) {
+        transform(s.begin(), s.end(), s.begin(), ::tolower);
+        auto it = find(cache.begin(), cache.end(), s);
+        if (it != cache.end()) {
             ++ans;
-            dq.erase(it);
-            dq.push_back(city);
+            cache.erase(it);
+        } else {
+            ans += 5;
+            if (!cache.empty() && cache.size() == cacheSize) cache.pop_front();
         }
+        if (cache.size() < cacheSize) cache.push_back(s);
     }
     return ans;
 }
