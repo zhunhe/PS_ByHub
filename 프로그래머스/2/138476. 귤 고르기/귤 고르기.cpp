@@ -1,22 +1,15 @@
-#include <vector>
-#include <map>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int solution(int k, vector<int> tangerine) {
     map<int, int> m;
-    for (int size : tangerine) ++m[size];
-    vector<int> cnt;
-    for (auto [size, count] : m)
-        cnt.push_back(count);
-    sort(cnt.rbegin(), cnt.rend());
-    int answer = 0;
-    for (int elem : cnt) {
-        ++answer;
-        k -= elem;
-        if (k <= 0)
-            break;
+    for (auto size : tangerine) ++m[size];
+    priority_queue<int> pq;
+    for (auto [size, cnt] : m) pq.push(cnt);
+    int ans = 0;
+    while (k > 0) {
+        k -= pq.top(); pq.pop();
+        ++ans;
     }
-    return answer;
+    return ans;
 }
