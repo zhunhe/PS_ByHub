@@ -1,14 +1,11 @@
-#include <string>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-bool solution(string s)
-{
+bool solution(string s) {
     int cnt = 0;
-    for (const char c : s) {
-        cnt += (c == '(' ? 1 : -1);
-        if (cnt < 0)
-            return false;
+    for (const auto& c : s) {
+        c == '(' ? ++cnt : --cnt;
+        if (cnt < 0) return false;
     }
     return cnt == 0;
 }
