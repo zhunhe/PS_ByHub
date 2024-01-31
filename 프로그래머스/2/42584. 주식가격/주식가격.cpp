@@ -2,14 +2,15 @@
 using namespace std;
 
 vector<int> solution(vector<int> prices) {
-    const int len = prices.size();
-    vector<int> ans(len);
-    for (int i = 0; i < len; i++) ans[i] = len - 1 - i;
-    stack<int> st;
-    for (int i = 0; i < len; i++) {
-        while (!st.empty() && prices[st.top()] > prices[i])
-            ans[st.top()] = i - st.top(), st.pop();
-        st.push(i);
+    vector<int> ans(prices.size());
+    for (int i = 0; i < ans.size(); i++) ans[i] = ans.size() - 1 - i;
+    stack<int> stk;
+    for (int i = 0; i < ans.size(); i++) {
+        while (!stk.empty() && prices[stk.top()] > prices[i]) {
+            ans[stk.top()] = i - stk.top();
+            stk.pop();
+        }
+        stk.push(i);
     }
     return ans;
 }
