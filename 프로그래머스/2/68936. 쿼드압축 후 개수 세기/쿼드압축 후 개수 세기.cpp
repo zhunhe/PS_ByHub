@@ -3,27 +3,28 @@ using namespace std;
 
 vector<int> ans(2);
 
-void divide_and_conquer(const vector<vector<int>>& arr, int len, int y, int x) {
-    if (len == 0) return;
-    int sum = 0;
+bool isAllSame(const vector<vector<int>>& arr, int y, int x, int len) {
     for (int i = y; i < y + len; i++)
         for (int j = x; j < x + len; j++)
-            sum += arr[i][j];
-    if (sum == 0) {
-        ++ans[0];
-        return;
-    } else if (sum == len * len) {
-        ++ans[1];
+            if (arr[y][x] != arr[i][j])
+                return false;
+    return true;
+}
+
+void dfs(const vector<vector<int>>& arr, int y, int x, int len) {
+    if (len == 0) return;
+    if (isAllSame(arr, y, x, len)) {
+        ++ans[arr[y][x]];
         return;
     }
     len >>= 1;
-    divide_and_conquer(arr, len, y, x);
-    divide_and_conquer(arr, len, y, x + len);
-    divide_and_conquer(arr, len, y + len, x);
-    divide_and_conquer(arr, len, y + len, x + len);
+    dfs(arr, y, x, len);
+    dfs(arr, y, x + len, len);
+    dfs(arr, y + len, x, len);
+    dfs(arr, y + len, x + len, len);
 }
 
 vector<int> solution(vector<vector<int>> arr) {
-    divide_and_conquer(arr, arr.size(), 0, 0);
+    dfs(arr, 0, 0, arr.size());
     return ans;
 }
