@@ -1,29 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct coordinate {
-    int y, x;
-};
-
 const int dy[4] = {-1, 0, 1, 0};
 const int dx[4] = {0, 1, 0, -1};
 
-int calculateDistance(const vector<string>& maps, coordinate from, coordinate to) {
-    const int h = maps.size(), w = maps[0].size();
-    vector<vector<int>> dist(h, vector<int>(w));
-    queue<coordinate> q;
-    q.push(from);
-    dist[from.y][from.x] = 1;
+int calDistance(const vector<string>& maps, char from, char to) {
+    vector<vector<int>> dist(maps.size(), vector<int>(maps[0].size()));
+    queue<pair<int, int>> q;
+    for (int i = 0; i < maps.size(); i++) {
+        for (int j = 0; j < maps[0].size(); j++) {
+            if (maps[i][j] != from) continue;
+            q.push({i, j});
+            dist[i][j] = 1;
+            break;
+        }
+    }
     while (!q.empty()) {
-        auto now = q.front(); q.pop();
-        if (now.y == to.y && now.x == to.x)
-            return dist[to.y][to.x] - 1;
+        const auto [y, x] = q.front(); q.pop();
+        if (maps[y][x] == to)
+            return dist[y][x] - 1;
         for (int k = 0; k < 4; k++) {
-            const int ny = now.y + dy[k], nx = now.x + dx[k];
-            if (ny < 0 || nx < 0 || ny >= h || nx >= w) continue;
+            const int ny = y + dy[k], nx = x + dx[k];
+            if (ny < 0 || nx < 0 || ny >= maps.size() || nx >= maps[0].size()) continue;
             if (maps[ny][nx] == 'X') continue;
             if (dist[ny][nx]) continue;
-            dist[ny][nx] = dist[now.y][now.x] + 1;
+            dist[ny][nx] = dist[y][x] + 1;
             q.push({ny, nx});
         }
     }
@@ -31,19 +32,9 @@ int calculateDistance(const vector<string>& maps, coordinate from, coordinate to
 }
 
 int solution(vector<string> maps) {
-    coordinate start, lever, goal;
-    for (int i = 0; i < maps.size(); i++) {
-        for (int j = 0; j < maps[0].size(); j++) {
-            if (maps[i][j] == 'S') start.y = i, start.x = j;
-            if (maps[i][j] == 'L') lever.y = i, lever.x = j;
-            if (maps[i][j] == 'E') goal.y = i, goal.x = j;
-        }
-    }
-    const int startToLever = calculateDistance(maps, start, lever);
-    if (startToLever == -1)
-        return -1;
-    const int leverToGoal = calculateDistance(maps, lever, goal);
-    if (leverToGoal == -1)
-        return -1;
-    return startToLever + leverToGoal;
+    const int dist1 = calDistance(maps, 'S', 'L');
+    if (dist1 == -1) return -1;
+    const int dist2 = calDistance(maps, 'L', 'E');
+    if (dist2 == -1) return -1;
+    return dist1 + dist2;
 }
