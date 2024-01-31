@@ -1,33 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string s;
+vector<int> nums;
 set<int> st;
-bool visited[7];
+bool visited[10];
 
-bool isPrime(int n) {
-    if (n < 2) return false;
-    for (int i = 2; i * i <= n; i++)
-        if (n % i == 0)
+bool isPrime(long long n) {
+    if (n == 2) return true;
+    if (n < 2 || !(n & 1)) return false;
+    for (long long i = 3; i <= sqrt(n); i += 2)
+        if (!(n % i))
             return false;
     return true;
 }
 
-void dfs(string tmp) {
-    if (!tmp.empty() && isPrime(stoi(tmp)))
-        st.insert(stoi(tmp));
-    if (tmp.size() == s.size())
-        return;
-    for (int i = 0; i < s.size(); i++) {
+void dfs(int depth, int num) {
+    if (isPrime(num)) st.insert(num);
+    if (depth == nums.size()) return;
+    for (int i = 0; i < nums.size(); i++) {
         if (visited[i]) continue;
         visited[i] = true;
-        dfs(tmp + s[i]);
+        dfs(depth + 1, num * 10 + nums[i]);
         visited[i] = false;
     }
 }
 
 int solution(string numbers) {
-    s = numbers;
-    dfs("");
+    for (const auto& c : numbers) nums.push_back(c - '0');
+    dfs(0, 0);
     return st.size();
 }
