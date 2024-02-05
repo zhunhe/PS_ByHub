@@ -1,31 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-
-struct Data {
-    int startTime, endTime;
-};
-
-bool compare(const Data& lhs, const Data& rhs) {
-    if (lhs.startTime == rhs.startTime)
-        return lhs.endTime < rhs.endTime;
-    return lhs.startTime < rhs.startTime;
-}
 
 int main() {
-    FASTIO
     int n; cin >> n;
-    vector<Data> timeTables(n);
-    for (Data& elem : timeTables) cin >> elem.startTime >> elem.endTime;
-    sort(timeTables.begin(), timeTables.end(), compare);
-    int answer = 0;
-    priority_queue<int, vector<int>, greater<int>> pq;
-    for (const Data& timeTable : timeTables) {
-        if (!pq.empty() && pq.top() <= timeTable.startTime)
+    vector<pair<int, int>> rooms(n);    // start_time, end_time
+    for (auto& elem : rooms) cin >> elem.first >> elem.second;
+    sort(rooms.begin(), rooms.end(), [](auto lhs, auto rhs) {
+        if (lhs.first == rhs.first)
+            return lhs.second < rhs.second;
+        return lhs.first < rhs.first;
+    });
+    int ans = 0;
+    priority_queue<int> pq;    // end_time;
+    for (const auto room : rooms) {
+        if (!pq.empty() && -pq.top() <= room.first)
             pq.pop();
-        else
-            answer++;
-        pq.push(timeTable.endTime);
+        pq.push(-room.second);
+        ans = max(ans, (int)pq.size());
     }
-    cout << answer << '\n';
+    cout << ans;
 }
