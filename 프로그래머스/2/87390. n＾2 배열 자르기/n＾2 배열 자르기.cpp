@@ -2,14 +2,8 @@
 using namespace std;
 
 vector<int> solution(int n, long long left, long long right) {
-    vector<int> ans(right - left + 1);
-    int y = left / n, x = left % n;
-    for (int i = 0; i < ans.size(); i++) {
-        ans[i] = max(y, x) + 1;
-        if (++x == n) {
-            ++y;
-            x = 0;
-        }
-    }
+    vector<int> ans;
+    for (long long i = left; i < right + 1; i++)
+        ans.push_back(max(i / n, i % n) + 1);
     return ans;
 }
