@@ -1,25 +1,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int ans, len;
-bool visited[8];
+int ans;
 vector<vector<int>> d;
+bool visited[8];
 
-void dfs(int remain, int depth) {
-    ans = max(ans, depth);
-    if (depth == len) return;
-    for (int i = 0; i < len; i++) {
+void dfs(int depth, int k) {
+    if (k >= 0) ans = max(ans, depth);
+    if (k < 0 || depth == d.size()) return;
+    for (int i = 0; i < d.size(); i++) {
         if (visited[i]) continue;
-        if (remain < d[i][0]) continue;
         visited[i] = true;
-        dfs(remain - d[i][1], depth + 1);
+        if (k >= d[i][0])
+            dfs(depth + 1, k - d[i][1]);
         visited[i] = false;
     }
 }
 
 int solution(int k, vector<vector<int>> dungeons) {
-    len = dungeons.size();
     d = dungeons;
-    dfs(k, 0);
+    dfs(0, k);
     return ans;
 }
