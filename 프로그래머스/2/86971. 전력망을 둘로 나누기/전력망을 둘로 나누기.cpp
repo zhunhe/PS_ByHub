@@ -3,37 +3,33 @@ using namespace std;
 
 vector<int> adj[101];
 
-void resetAdj(const vector<vector<int>>& wires, int idx) {
-    for (int i = 1; i < 102; i++) adj[i].resize(0);
-    for (int i = 0; i < wires.size(); i++) {
-        if (i == idx) continue;
-        adj[wires[i][0]].push_back(wires[i][1]);
-        adj[wires[i][1]].push_back(wires[i][0]);
-    }
-}
-
 int bfs(int start) {
-    int cnt = 1;
     vector<bool> visited(101);
     queue<int> q;
     q.push(start);
     visited[start] = true;
+    int len = 1;
     while (!q.empty()) {
-        const int now = q.front(); q.pop();
-        for (int next : adj[now]) {
+        const auto now = q.front(); q.pop();
+        for (const auto next : adj[now]) {
             if (visited[next]) continue;
             visited[next] = true;
-            ++cnt;
+            ++len;
             q.push(next);
         }
     }
-    return cnt;
+    return len;
 }
 
 int solution(int n, vector<vector<int>> wires) {
-    int ans = 101;
+    int ans = n;
     for (int i = 0; i < wires.size(); i++) {
-        resetAdj(wires, i);
+        for (int j = 1; j < n + 1; j++) adj[j].clear();
+        for (int j = 0; j < wires.size(); j++) {
+            if (i == j) continue;
+            adj[wires[j][0]].push_back(wires[j][1]);
+            adj[wires[j][1]].push_back(wires[j][0]);
+        }
         ans = min(ans, abs(bfs(wires[i][0]) - bfs(wires[i][1])));
     }
     return ans;
