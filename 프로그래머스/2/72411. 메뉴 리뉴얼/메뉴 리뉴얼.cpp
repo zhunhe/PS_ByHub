@@ -1,32 +1,40 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int maxLen;
-map<string, int> m[11];
+string order;
 
-void dfs(string tmp, int start, const string& order) {
-    if (tmp.size() > maxLen) return;
-    if (tmp.size() >= 2)
-        ++m[tmp.size()][tmp];
-    for (int i = start; i < order.size(); i++)
-        dfs(tmp + order[i], i + 1, order);
+map<string, int> menu[11];
+vector<bool> visited;
+
+void dfs(int start, string s) {
+    ++menu[s.size()][s];
+    if (s.size() == order.size())
+        return;
+    for (int i = start; i < order.size(); i++) {
+        if (visited[i]) continue;
+        visited[i] = true;
+        dfs(i + 1, s + order[i]);
+        visited[i] = false;
+    }
 }
 
 vector<string> solution(vector<string> orders, vector<int> course) {
-    maxLen = *max_element(course.begin(), course.end());
-    for (string& s : orders) sort(s.begin(), s.end());
-    for (auto order : orders) dfs("", 0, order);
+    for (const auto& s : orders) {
+        order = s;
+        sort(order.begin(), order.end());
+        visited.resize(0);
+        visited.resize(order.size(), false);
+        dfs(0, "");
+    }
     vector<string> ans;
-    for (auto i : course) {
-        if (m[i].empty()) continue;
-        priority_queue<pair<int, string>> pq;
-        for (auto [s, cnt] : m[i]) if (cnt > 1) pq.push({cnt, s});
-        if (pq.empty()) continue;
-        const int count = pq.top().first;
-        ans.push_back(pq.top().second); pq.pop();
-        while (!pq.empty() && count == pq.top().first) {
-            ans.push_back(pq.top().second); pq.pop();
-        }
+    for (const auto len : course) {
+        int maxCnt = -1;
+        for (const auto& [key, val] : menu[len])
+            if (val > 1)
+                maxCnt = max(maxCnt, val);
+        for (const auto& [key, val] : menu[len])
+            if (val == maxCnt)
+                ans.push_back(key);
     }
     sort(ans.begin(), ans.end());
     return ans;
