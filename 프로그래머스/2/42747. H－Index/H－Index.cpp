@@ -3,8 +3,8 @@ using namespace std;
 
 int solution(vector<int> v) {
     sort(v.begin(), v.end());
+    int ans = 0;
     for (int i = 0; i < v.size(); i++)
-        if (v.size() - i <= v[i])
-            return v.size() - i;
-    return 0;
+        ans = max(ans, min(v[i], (int)v.size() - i));
+    return ans;
 }
