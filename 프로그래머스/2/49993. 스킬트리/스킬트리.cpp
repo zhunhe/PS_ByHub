@@ -3,17 +3,19 @@ using namespace std;
 
 int solution(string skill, vector<string> skill_trees) {
     int ans = 0;
-    for (auto s : skill_trees) {
-        int idx, last = -1; bool ok = true;
-        for (auto c : skill) {
-            int idx = find(s.begin(), s.end(), c) - s.begin();
-            if (last != -1 && idx < last) {
-                ok = false;
-                break;
-            }
-            last = idx;
+    for (const auto& skill_tree : skill_trees) {
+        vector<int> pos(skill.size(), 999);
+        for (int i = 0; i < skill.size(); i++) {
+            int idx = skill_tree.find(skill[i]);
+            if (idx != string::npos)
+                pos[i] = idx;
         }
-        if (ok) ++ans;
+        bool fail = false;
+        for (int i = 1; i < pos.size(); i++)
+            if (pos[i - 1] > pos[i])
+                fail = true;
+        if (!fail)
+            ++ans;
     }
     return ans;
 }
