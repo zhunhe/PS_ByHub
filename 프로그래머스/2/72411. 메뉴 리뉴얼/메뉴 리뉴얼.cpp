@@ -23,7 +23,7 @@ vector<string> solution(vector<string> orders, vector<int> course) {
         order = s;
         sort(order.begin(), order.end());
         visited.resize(0);
-        visited.resize(order.size(), false);
+        visited.resize(order.size());
         dfs(0, "");
     }
     vector<string> ans;
