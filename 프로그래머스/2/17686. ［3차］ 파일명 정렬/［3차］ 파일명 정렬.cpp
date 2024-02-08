@@ -1,35 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string convHeader(string s) {
-    transform(s.begin(), s.end(), s.begin(), ::tolower);
-    
-    int i;
-    while (i < s.size() && !isdigit(s[i])) ++i;
-    string header = s.substr(0, i);
-    
-    return header;
-}
+struct Data {
+    string head, tail;
+    int number;
+};
 
-int convNumber(string s) {
-    int i;
-    while (i < s.size() && !isdigit(s[i])) ++i;
-    string header = s.substr(0, i);
-    
-    int j = i;
-    while (j < s.size() && isdigit(s[j])) ++j;
-    string number = s.substr(i, j - i);
-
-    return stoi(number);
-}
-
-bool compare(const string& lhs, const string& rhs) {
-    if (convHeader(lhs) == convHeader(rhs))
-        return convNumber(lhs) < convNumber(rhs);
-    return convHeader(lhs) < convHeader(rhs);
+Data conv(const string& s) {
+    Data ret;
+    int len = 0;
+    while (!isdigit(s[len])) ++len;
+    ret.head = s.substr(0, len);
+    transform(ret.head.begin(), ret.head.end(), ret.head.begin(), ::tolower);
+    while (isdigit(s[len])) ++len;
+    ret.number = stoi(s.substr(ret.head.size(), len - ret.head.size()));
+    ret.tail = s.substr(len);
+    return ret;
 }
 
 vector<string> solution(vector<string> files) {
-    stable_sort(files.begin(), files.end(), compare);
+    stable_sort(files.begin(), files.end(), [](const auto& lhs, const auto& rhs) {
+        const Data l = conv(lhs), r = conv(rhs);
+        if (l.head == r.head)
+            return l.number < r.number;
+        return l.head < r.head;
+    });
     return files;
 }
