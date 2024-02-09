@@ -2,16 +2,15 @@
 using namespace std;
 
 long long solution(vector<int> weights) {
-    map<double, long long> m;
-    for (auto weight : weights) ++m[weight];
+    sort(weights.begin(), weights.end());
     long long ans = 0;
-    for (auto [w, cnt] : m) ans += cnt * (cnt - 1) >> 1;
-    set<long long> st;
-    for (auto [w, cnt] : m) st.insert(w);
-    for (auto elem : st) {
-        ans += m[elem*2.0/3] * m[elem];
-        ans += m[elem*2.0/4] * m[elem];
-        ans += m[elem*3.0/4] * m[elem];
+    for (int i = 0; i < weights.size(); i++) {
+        for (int j = i + 1; j < weights.size(); j++) {
+            if (weights[i] == weights[j]) ++ans;
+            else if (weights[i] * 3 == weights[j] * 2) ++ans;
+            else if (weights[i] * 2 == weights[j]) ++ans;
+            else if (weights[i] * 4 == weights[j] * 3) ++ans;
+        }
     }
     return ans;
 }
