@@ -3,14 +3,14 @@ using namespace std;
 
 vector<vector<int>> ans;
 
-void hanoi(int n, int from, int stopover, int to) {
-    if (n == 1)
-        ans.push_back({from, to});
-    else {
-        hanoi(n - 1, from, to, stopover);
-        hanoi(1, from, stopover, to);
-        hanoi(n - 1, stopover, from, to);
+void hanoi(int n, int from, int stopover, int goal) {
+    if (n == 1) {
+        ans.push_back({from, goal});
+        return;
     }
+    hanoi(n - 1, from, goal, stopover);
+    hanoi(1, from, stopover, goal);
+    hanoi(n - 1, stopover, from, goal);
 }
 
 vector<vector<int>> solution(int n) {
