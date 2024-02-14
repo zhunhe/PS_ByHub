@@ -1,15 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-long long gcd(int a, int b) {
-    if (a % b == 0)
-        return b;
-    return gcd(b, a % b);
+int cnt(int y, int x) {
+    if (y > x) swap(y, x);
+    const double lean = (double)y / x;
+    int ret = 1;
+    for (int i = 1; i < x; i++)  {
+        ++ret;
+        const int left = (i - 1) * lean;
+        const int right = i * lean;
+        if (left < right) ++ret;
+    }
+    return ret;
 }
 
 long long solution(int w, int h) {
-    long long ans = (long long)w * h;
-    const long long _gcd = gcd(w, h);
-    w /= _gcd, h /= _gcd;
-    return ans - (w + h - 1) * _gcd;
+    const int _gcd = gcd(w, h);
+    return (long long)w * h - cnt(w / _gcd, h / _gcd) * _gcd;
 }
