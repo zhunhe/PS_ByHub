@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int solution(vector<vector<int>> triangle) {
-    for (int i = 1; i < triangle.size(); i++) {
-        triangle[i][0] += triangle[i - 1][0];
+int solution(vector<vector<int>> vv) {
+    for (int i = 1; i < vv.size(); i++) {
+        vv[i][0] += vv[i - 1][0];
         for (int j = 1; j < i; j++)
-            triangle[i][j] += max(triangle[i - 1][j - 1], triangle[i - 1][j]);
-        triangle[i][i] += triangle[i - 1][i - 1];
+            vv[i][j] += max(vv[i - 1][j - 1], vv[i - 1][j]);
+        vv[i][i] += vv[i - 1][i - 1];
     }
-    return *max_element(triangle.back().begin(), triangle.back().end());
+    return *max_element(vv.back().begin(), vv.back().end());
 }
