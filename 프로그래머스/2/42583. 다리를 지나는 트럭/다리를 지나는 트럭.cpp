@@ -2,18 +2,20 @@
 using namespace std;
 
 int solution(int len, int w, vector<int> trucks) {
+    int ans = 1;
     vector<int> bridge(len);
-    bridge[0] = trucks[0];
-    int ans = 1, idx = 1, now = bridge[0];
-    while (now > 0) {
-        now -= bridge.back();
-        for (int i = bridge.size() - 1; i > 0; i--) bridge[i] = bridge[i - 1];
-        bridge[0] = 0;
+    int idx = 0;
+    bridge[0] = trucks[idx++];
+    int total = bridge[0];
+    while (total) {
         ++ans;
-        if (idx == trucks.size()) continue;
-        if (now + trucks[idx] > w) continue;
-        bridge[0] = trucks[idx++];
-        now += bridge[0];
+        total -= bridge.back();
+        rotate(bridge.begin(), bridge.end() - 1, bridge.end());
+        bridge[0] = 0;
+        if (idx < trucks.size() && total + trucks[idx] <= w) {
+            bridge[0] = trucks[idx++];
+            total += bridge[0];
+        }
     }
     return ans;
 }
