@@ -1,6 +1,9 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <set>
+
 using namespace std;
 
 int solution(vector<int> nums) {
-    return min(set<int>(nums.begin(), nums.end()).size(), nums.size() >> 1);
+    set<int> s(nums.begin(), nums.end());
+    return min(s.size(), nums.size() / 2);
 }
