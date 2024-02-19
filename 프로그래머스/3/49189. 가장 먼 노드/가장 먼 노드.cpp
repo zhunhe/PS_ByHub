@@ -8,17 +8,22 @@ int solution(int n, vector<vector<int>> edge) {
         adj[v[0]].push_back(v[1]);
         adj[v[1]].push_back(v[0]);
     }
-    vector<int> dist(n + 1, -1);
+    vector<int> dist(n + 1, INT_MAX);
+    dist[1] = 0;
     queue<int> q;
     q.push(1);
-    dist[1] = 0;
     while (!q.empty()) {
-        const int now = q.front(); q.pop();
-        for (const int next : adj[now]) {
-            if (dist[next] != -1) continue;
+        const auto now = q.front(); q.pop();
+        for (const auto next : adj[now]) {
+            if (dist[now] + 1 >= dist[next]) continue;
             dist[next] = dist[now] + 1;
             q.push(next);
         }
     }
-    return count(dist.begin() + 1, dist.end(), *max_element(dist.begin(), dist.end()));
+    const int _max = *max_element(dist.begin() + 1, dist.end());
+    int ans = 0;
+    for (int i = 1; i < n + 1; i++)
+        if (dist[i] == _max)
+            ++ans;
+    return ans;
 }
