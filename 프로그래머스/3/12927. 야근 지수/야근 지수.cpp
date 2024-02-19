@@ -2,15 +2,18 @@
 using namespace std;
 
 long long solution(int n, vector<int> works) {
-    priority_queue<long long> pq;
-    for (const auto& work : works) pq.push(work);
-    while (n-- && !pq.empty()) {
-        const int work = pq.top(); pq.pop();
-        if (work > 0)
-            pq.push(work - 1);
-    }
+    if (n >= reduce(works.begin(), works.end())) return 0;
     long long ans = 0;
-    while (!pq.empty())
-        ans += powl(pq.top(), 2), pq.pop();
+    priority_queue<int> pq;
+    for (const auto work : works) pq.push(work);
+    while (!pq.empty() && n--) {
+        const int work = pq.top();
+        pq.pop();
+        pq.push(work - 1);
+    }
+    while (!pq.empty()) {
+        ans += powl(pq.top(), 2);
+        pq.pop();
+    }
     return ans;
 }
