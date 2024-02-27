@@ -12,14 +12,9 @@ long long find(long long n) {
 vector<long long> solution(long long k, vector<long long> room_number) {
     vector<long long> ans;
     for (const auto n : room_number) {
-        if (m.find(n) == m.end()) {
-            ans.push_back(n);
-            m[n] = find(n + 1);
-        } else {
-            long long next = find(n);
-            ans.push_back(next);
-            m[next] = find(next + 1);
-        }
+        long long next = find(n);
+        ans.push_back(next);
+        m[next] = find(next + 1);
     }
     return ans;
 }
