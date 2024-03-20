@@ -13,19 +13,11 @@ vector<string> solution(vector<vector<string>> plans) {
     });
     vector<string> ans;
     stack<pair<string, int>> stk;
-    int before = -1;
+    int before = stoi(plans[0][2]);
 
     for (const auto& plan : plans) {
-        const string name = plan[0];
         const int now = conv(plan[1]);
-        const int playtime = stoi(plan[2]);
 
-        if (before == -1) {
-            before = now;
-            stk.push({plan[0], playtime});
-            continue;
-        }
-        
         int diff = now - before;
         before = now;
 
@@ -39,7 +31,7 @@ vector<string> solution(vector<vector<string>> plans) {
                 diff -= subject.second;
             }
         }
-        stk.push({plan[0], playtime});
+        stk.push({plan[0], stoi(plan[2])});
     }
 
     while (!stk.empty()) {
