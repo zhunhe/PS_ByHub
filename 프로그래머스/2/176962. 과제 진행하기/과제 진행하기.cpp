@@ -13,7 +13,7 @@ vector<string> solution(vector<vector<string>> plans) {
     });
     vector<string> ans;
     stack<pair<string, int>> stk;
-    int before = stoi(plans[0][2]);
+    int before = conv(plans[0][1]);
 
     for (const auto& plan : plans) {
         const int now = conv(plan[1]);
